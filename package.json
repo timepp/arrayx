@@ -1,0 +1,12 @@
+{
+  "name": "arrayx",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Lean, fixed multi-dimension array",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tongjunhui",
+  "license": "ISC"
+}

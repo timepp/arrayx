@@ -7,18 +7,7 @@ export class ArrayX<T> {
         const length = dim.reduce((p, c) => p * c, 1)
         this.data = new Array(length)
         if (initValue !== undefined) {
-            if (initValue instanceof Function) {
-                for (let i = 0; i < length; i++) {
-                    this.data[i] = initValue(this.indices(i))
-                }
-            } else if (initValue instanceof Array) {
-                if (length !== initValue.length) {
-                    throw new Error(`ArrayX: init data length mismatch`)
-                }
-                this.data = initValue.slice()
-            } else {
-                this.data.fill(initValue)
-            }
+            this.fill(initValue)
         }
     }
 
@@ -48,12 +37,19 @@ export class ArrayX<T> {
         this.data[this.index(indices)] = value
     }
 
-    fill(data: T | T[]) : this {
-        if (data instanceof Array) {
-            this.data = data.slice()
+    fill(data: T | T[] | ((index: number[]) => T)) : this {
+        if (data instanceof Function) {
+            for (let i = 0; i < this.data.length; i++) {
+                this.data[i] = data(this.indices(i))
+            }
+        } else if (data instanceof Array) {
+            for (let i = 0; i < this.data.length && i < data.length; i++) {
+                this.data[i] = data[i]
+            }
         } else {
             this.data.fill(data)
         }
+
         return this
     }
 
